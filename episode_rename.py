@@ -1,7 +1,17 @@
 import re
 import os
 import pathlib
-os.chdir(input("folder location: "))
+import PySimpleGUI as sg
+
+
+path = sg.popup_get_folder("Select a Folder")
+if not path:
+	sg.popup("Cancel", "No Folder Selectd")
+	raise SystemExit("Cancelled: No Folder Selected")
+else:
+	sg.popup("The Folder You Selected Was", path)
+
+os.chdir(path)
 folder = pathlib.Path('.')
 
 def remove_anime_tags(folder):
@@ -13,7 +23,7 @@ def remove_anime_tags(folder):
 			striped = re.sub(regex, subst, name, 3, re.IGNORECASE)
 			new_name = f"{striped}{ext}"
 			file.rename(new_name)
-			print(f"Changed{file} to {new_name}")
+			sg.popup(f"Changed{file} to {new_name}")
 			
 
 if __name__ == "__main__":
